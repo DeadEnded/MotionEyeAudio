@@ -4,11 +4,12 @@ camera_id=$2
 file_path=$3
 motion_config_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 motion_camera_conf="${motion_config_dir}/camera-${camera_id}.conf"
+netcam="$(if grep -q 'netcam_highres' ${motion_camera_conf};then echo 'netcam_highres'; else echo 'netcam_url'; fi)"
 
 case $operation in
     start)
         credentials="$(grep netcam_userpass ${motion_camera_conf} | sed -e 's/netcam_userpass.//')"
-        stream="$(grep netcam_highres ${motion_camera_conf} | sed -e 's/netcam_highres.//')"
+        stream="$(grep ${netcam} ${motion_camera_conf} | sed -e 's/${netcam}.//')"
         full_stream="$(echo ${stream} | sed -e "s/\/\//\/\/${credentials}@/")"
         ffmpeg -y -i "${full_stream}" -c:a copy ${file_path}.wav 2>&1 1>/dev/null &
         ffmpeg_pid=$!
