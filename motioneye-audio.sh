@@ -13,7 +13,7 @@ case $operation in
         full_stream="$(echo ${stream} | sed -e "s/\/\//\/\/${credentials}@/")"
         ffmpeg -y -i "${full_stream}" -c:a copy ${file_path}.wav 2>&1 1>/dev/null &
         ffmpeg_pid=$!
-        echo $ffmpeg_pid > /tmp/motion-audio-ffmpeg-camera-${camera_id}
+        echo ${ffmpeg_pid} > /tmp/motion-audio-ffmpeg-camera-${camera_id}
         ;;
 
     stop)
@@ -22,11 +22,11 @@ case $operation in
         rm -rf $(cat /tmp/motion-audio-ffmpeg-camera-${camera_id})
 
         # Merge the video and audio to a single file, and replace the original video file
-        ffmpeg -y -i $file_path -i $file_path.wav -c:v copy -c:a aac $file_path.temp.mp4;
-        mv -f $file_path.temp.mp4 $file_path;
+        ffmpeg -y -i ${file_path} -i ${file_path}.wav -c:v copy -c:a aac ${file_path}.temp.mp4;
+        mv -f ${file_path}.temp.mp4 ${file_path};
 
         # Remove audio file after merging
-        rm -f $file_path.wav;
+        rm -f ${file_path}.wav;
         ;;
 
     *)
