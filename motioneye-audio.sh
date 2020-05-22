@@ -6,7 +6,7 @@ motion_config_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && p
 motion_camera_conf="${motion_config_dir}/camera-${camera_id}.conf"
 netcam="$(if grep -q 'netcam_highres' ${motion_camera_conf};then echo 'netcam_highres'; else echo 'netcam_url'; fi)"
 
-case $operation in
+case ${operation} in
     start)
         credentials="$(grep netcam_userpass ${motion_camera_conf} | sed -e 's/netcam_userpass.//')"
         stream="$(grep ${netcam} ${motion_camera_conf} | sed -e 's/$'{netcam}'.//')"
