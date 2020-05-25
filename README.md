@@ -10,7 +10,7 @@ Currently this has only been tested on continuous recording, but should work on 
       ```
 3)  In your camera settings, under the `File Storage` section enable `Run a Command` and add the following command:
       ```
-      on_movie_end /etc/motioneye/motioneye-audio.sh stop %t %f
+      /etc/motioneye/motioneye-audio.sh stop %t %f
       ```
 
 This setup (steps 2 and 3) will need to be done for each camera that you want to add audio to the recordings.
