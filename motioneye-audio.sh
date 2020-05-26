@@ -9,7 +9,7 @@ netcam="$(if grep -q 'netcam_highres' ${motion_camera_conf};then echo 'netcam_hi
 case ${operation} in
     start)
         credentials="$(grep netcam_userpass ${motion_camera_conf} | sed -e 's/netcam_userpass.//')"
-        stream="$(grep ${netcam} ${motion_camera_conf} | sed -e 's/$'{netcam}'.//')"
+        stream="$(grep ${netcam} ${motion_camera_conf} | sed -e "s/${netcam}.//")"
         full_stream="$(echo ${stream} | sed -e "s/\/\//\/\/${credentials}@/")"
         ffmpeg -y -i "${full_stream}" -c:a copy ${file_path}.wav 2>&1 1>/dev/null &
         ffmpeg_pid=$!
