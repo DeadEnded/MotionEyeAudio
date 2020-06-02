@@ -5,6 +5,7 @@ file_path=$3
 motion_config_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 motion_camera_conf="${motion_config_dir}/camera-${camera_id}.conf"
 netcam="$(if grep -q 'netcam_highres' ${motion_camera_conf};then echo 'netcam_highres'; else echo 'netcam_url'; fi)"
+extension="$(echo ${file_path} | sed 's/^/./' | rev | cut -d. -f1  | rev)"
 
 case ${operation} in
     start)
@@ -22,8 +23,8 @@ case ${operation} in
         rm -rf $(cat /tmp/motion-audio-ffmpeg-camera-${camera_id})
 
         # Merge the video and audio to a single file, and replace the original video file
-        ffmpeg -y -i ${file_path} -i ${file_path}.wav -c:v copy -c:a aac ${file_path}.temp.mp4;
-        mv -f ${file_path}.temp.mp4 ${file_path};
+        ffmpeg -y -i ${file_path} -i ${file_path}.wav -c:v copy -c:a aac ${file_path}.temp.${extension};
+        mv -f ${file_path}.temp.${extension} ${file_path};
 
         # Remove audio file after merging
         rm -f ${file_path}.wav;
