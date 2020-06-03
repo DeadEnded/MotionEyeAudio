@@ -15,4 +15,4 @@ Currently this has only been tested on continuous recording, but should work on 
 
 This setup (steps 2 and 3) will need to be done for each camera that you want to add audio to the recordings.
 
-***NOTE: If your system does not have an `/etc/motioneye/` directory, identify where your `motion.conf`, `motioneye.conf`, `camera-1.conf` etc. files are and store it there.  These update the above paths accordingly.***
+***NOTE: If your system does not have an `/etc/motioneye/` directory, identify where your `motion.conf`, `motioneye.conf`, `camera-1.conf` etc. files are and store it there.  Then update the above paths accordingly.***
