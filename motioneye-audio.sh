@@ -12,7 +12,7 @@ case ${operation} in
         credentials="$(grep netcam_userpass ${motion_camera_conf} | sed -e 's/netcam_userpass.//')"
         stream="$(grep ${netcam} ${motion_camera_conf} | sed -e "s/${netcam}.//")"
         full_stream="$(echo ${stream} | sed -e "s/\/\//\/\/${credentials}@/")"
-        ffmpeg -y -i "${full_stream}" -c:a copy ${file_path}.wav 2>&1 1>/dev/null &
+        ffmpeg -y -i "${full_stream}" -c:a aac ${file_path}.aac 2>&1 1>/dev/null &
         ffmpeg_pid=$!
         echo ${ffmpeg_pid} > /tmp/motion-audio-ffmpeg-camera-${camera_id}
         ;;
@@ -23,11 +23,11 @@ case ${operation} in
         rm -rf $(cat /tmp/motion-audio-ffmpeg-camera-${camera_id})
 
         # Merge the video and audio to a single file, and replace the original video file
-        ffmpeg -y -i ${file_path} -i ${file_path}.wav -c:v copy -c:a aac ${file_path}.temp.${extension};
+        ffmpeg -y -i ${file_path} -i ${file_path}.aac -c:v copy -c:a copy ${file_path}.temp.${extension};
         mv -f ${file_path}.temp.${extension} ${file_path};
 
         # Remove audio file after merging
-        rm -f ${file_path}.wav;
+        rm -f ${file_path}.aac;
         ;;
 
     *)
