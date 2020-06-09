@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Set variables
 operation=$1
 camera_id=$2
