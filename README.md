@@ -8,27 +8,34 @@ A docker image with the script already added to the `/etc/motioneye/` directory 
 
 Currently this has only been tested on continuous recording, but should work on motion events as well.
 
-Identify the directory mapped to `/etc/motioneye/` volume for the container.
-
-Copy `motioneye-audio.sh` to the host directory mapped to the containers `/etc/motioneye/` directory.
+**Docker script location** - Identify the directory mapped to `/etc/motioneye/` volume for the container.  Copy `motioneye-audio.sh` to the host directory mapped to the containers `/etc/motioneye/` directory.
       
+**MotionEyeOS script location** - Copy `motioneye-audio.sh` to the config directory - this is typically `/data/etc/`.
+
 Make the script executable - For Linux, navigate to the directory containing the script and and run:
       
-      
       chmod +x motioneye-audio.sh
-      
-
       
 ## Configuration
 
 In your camera settings, under the `Video Device` section add the following to `Extra Motion Options`:
 
-      on_movie_start /etc/motioneye/motioneye-audio.sh start %t %f
+**Docker**
 
+      on_movie_start /etc/motioneye/motioneye-audio.sh start %t %f
+      
+**MotionEyeOS**
+
+      on_movie_start /data/etc/motioneye-audio.sh start %t %f
       
 In your camera settings, under the `File Storage` section enable `Run a Command` and add the following command:
 
-      /etc/motioneye/motioneye-audio.sh stop %t %f
+**Docker**
 
+      /etc/motioneye/motioneye-audio.sh stop %t %f
+      
+**MotionEyeOS**
+
+      /data/etc/motioneye-audio.sh stop %t %f
 
 The configuration section will need to be done for each camera that you want to add audio to the recordings.
