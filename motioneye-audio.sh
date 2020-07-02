@@ -4,7 +4,7 @@
 operation=$1
 # Changing to Camera Name
 # camera_id=$2
-camera_name=%$
+camera_name=%2
 file_path=$3
 motion_config_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Replacing with camera name due to cameraID/thread mismatch
