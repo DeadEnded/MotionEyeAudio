@@ -22,20 +22,20 @@ In your camera settings, under the `Video Device` section add the following to `
 
 **Docker**
 
-      on_movie_start /etc/motioneye/motioneye-audio.sh start %t %f
+      on_movie_start /etc/motioneye/motioneye-audio.sh start '%$' %f
       
 **MotionEyeOS**
 
-      on_movie_start /data/etc/motioneye-audio.sh start %t %f
+      on_movie_start /data/etc/motioneye-audio.sh start '%$' %f
       
 In your camera settings, under the `File Storage` section enable `Run a Command` and add the following command:
 
 **Docker**
 
-      /etc/motioneye/motioneye-audio.sh stop %t %f
+      /etc/motioneye/motioneye-audio.sh stop '%$' %f
       
 **MotionEyeOS**
 
-      /data/etc/motioneye-audio.sh stop %t %f
+      /data/etc/motioneye-audio.sh stop '%$' %f
 
 The configuration section will need to be done for each camera that you want to add audio to the recordings.
