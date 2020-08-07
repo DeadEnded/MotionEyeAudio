@@ -2,14 +2,15 @@
 
 # Set variables
 operation=$1
-# Changing to Camera Name
-# camera_id=$2
-camera_name=$2
+motion_thread_id=$2
 file_path=$3
+camera_name=$4
+
+camera_id="$(python -c 'import motioneye.motionctl; print motioneye.motionctl.motion_camera_id_to_camera_id('${motion_thread_id}')')"
 motion_config_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-# Replacing with camera name due to cameraID/thread mismatch
-# motion_camera_conf="${motion_config_dir}/camera-${camera_id}.conf"
-motion_camera_conf="$( egrep -l \^camera_name.${camera_name} ${motion_config_dir}/*.conf)"
+motion_camera_conf="${motion_config_dir}/camera-${camera_id}.conf"
+# Below line was a temporary fix replacing camera ID with camera name due to cameraID/thread mismatch - motion_thread_id should fix this
+# motion_camera_conf="$( egrep -l \^camera_name.${camera_name} ${motion_config_dir}/*.conf)"
 netcam="$(if grep -q 'netcam_highres' ${motion_camera_conf};then echo 'netcam_highres'; else echo 'netcam_url'; fi)"
 extension="$(echo ${file_path} | sed 's/^/./' | rev | cut -d. -f1  | rev)"
 
@@ -20,16 +21,16 @@ case ${operation} in
         full_stream="$(echo ${stream} | sed -e "s/\/\//\/\/${credentials}@/")"
         ffmpeg -y -i "${full_stream}" -c:a aac ${file_path}.aac 2>&1 1>/dev/null &
         ffmpeg_pid=$!
-        # echo ${ffmpeg_pid} > /tmp/motion-audio-ffmpeg-camera-${camera_id}
-        echo ${ffmpeg_pid} > /tmp/motion-audio-ffmpeg-camera-${camera_name}
+        echo ${ffmpeg_pid} > /tmp/motion-audio-ffmpeg-camera-${camera_id}
+        # echo ${ffmpeg_pid} > /tmp/motion-audio-ffmpeg-camera-${camera_name}
         ;;
 
     stop)
         # Kill the ffmpeg audio recording for the clip
-        # kill $(cat /tmp/motion-audio-ffmpeg-camera-${camera_id})
-        # rm -rf $(cat /tmp/motion-audio-ffmpeg-camera-${camera_id})
-        kill $(cat /tmp/motion-audio-ffmpeg-camera-${camera_name})
-        rm -rf $(cat /tmp/motion-audio-ffmpeg-camera-${camera_name})
+        kill $(cat /tmp/motion-audio-ffmpeg-camera-${camera_id})
+        rm -rf $(cat /tmp/motion-audio-ffmpeg-camera-${camera_id})
+        # kill $(cat /tmp/motion-audio-ffmpeg-camera-${camera_name})
+        # rm -rf $(cat /tmp/motion-audio-ffmpeg-camera-${camera_name})
 
         # Merge the video and audio to a single file, and replace the original video file
         ffmpeg -y -i ${file_path} -i ${file_path}.aac -c:v copy -c:a copy ${file_path}.temp.${extension};
