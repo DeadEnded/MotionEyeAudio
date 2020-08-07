@@ -18,24 +18,26 @@ Make the script executable - For Linux, navigate to the directory containing the
       
 ## Configuration
 
+*Please confirm the ` %t %f '%$'` ordering as this was changed August 2020 when the script was changed back to `camera_id` from `camera_name`.*
+
 In your camera settings, under the `Video Device` section add the following to `Extra Motion Options`:
 
 **Docker**
 
-      on_movie_start /etc/motioneye/motioneye-audio.sh start '%$' %f
+      on_movie_start /etc/motioneye/motioneye-audio.sh start %t %f '%$'
       
 **MotionEyeOS**
 
-      on_movie_start /data/etc/motioneye-audio.sh start '%$' %f
+      on_movie_start /data/etc/motioneye-audio.sh start %t %f '%$'
       
 In your camera settings, under the `File Storage` section enable `Run a Command` and add the following command:
 
 **Docker**
 
-      /etc/motioneye/motioneye-audio.sh stop '%$' %f
+      /etc/motioneye/motioneye-audio.sh stop %t %f '%$'
       
 **MotionEyeOS**
 
-      /data/etc/motioneye-audio.sh stop '%$' %f
+      /data/etc/motioneye-audio.sh stop %t %f '%$'
 
 The configuration section will need to be done for each camera that you want to add audio to the recordings.
