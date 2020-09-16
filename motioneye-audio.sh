@@ -41,7 +41,7 @@ case ${operation} in
         ;;
 
     *)
-        # echo "Usage ./motioneye-audio.sh start <camera-id> <full-path-to-moviefile>"
-        echo "Usage ./motioneye-audio.sh start <camera-name> <full-path-to-moviefile>"
+        echo "Usage ./motioneye-audio.sh start <camera-id> <full-path-to-moviefile>"
+        # echo "Usage ./motioneye-audio.sh start <camera-name> <full-path-to-moviefile>"
         exit 1
 esac
