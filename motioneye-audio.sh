@@ -31,7 +31,7 @@ case ${operation} in
         rm -rf $(cat /tmp/motion-audio-ffmpeg-camera-${camera_id})
         # kill $(cat /tmp/motion-audio-ffmpeg-camera-${camera_name})
         # rm -rf $(cat /tmp/motion-audio-ffmpeg-camera-${camera_name})
-
+        sleep 5
         # Merge the video and audio to a single file, and replace the original video file
         ffmpeg -y -i ${file_path} -i ${file_path}.aac -c:v copy -c:a copy ${file_path}.temp.${extension};
         mv -f ${file_path}.temp.${extension} ${file_path};
